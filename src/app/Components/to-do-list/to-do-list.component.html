@@ -1,0 +1,23 @@
+<div class="container">
+    <div class= "content">
+    <h2>To-Do List</h2>
+  
+    <div class="input-container">
+      <input type="text" [(ngModel)]="newTask" placeholder="Enter task" />
+      <button (click)="addTask()">Add</button>
+    </div>
+  
+    <ul>
+      <li *ngFor="let task of tasks">
+        <span *ngIf="!task.isEditing">{{ task.title }}</span>
+        <input *ngIf="task.isEditing" type="text" [(ngModel)]="task.title" />
+  
+        <button *ngIf="!task.isEditing" (click)="enableEdit(task)">Edit</button>
+        <button *ngIf="task.isEditing" (click)="updateTask(task)">Update</button>
+        <button (click)="deleteTask(task.id)">Delete</button>
+      </li>
+    </ul>
+   </div>
+</div>
+
+  
