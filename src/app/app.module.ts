@@ -1,7 +1,10 @@
+// import { NgModule } from '@angular/core';
 import { NgModule } from '@angular/core';
+
 import { BrowserModule, provideClientHydration, withEventReplay } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppRoutingModule } from './app-routing.module';
+import { RouterModule } from '@angular/router';
 import { AppComponent } from './app.component';
 import { LoginComponent } from './Components/login/login.component';
 import { RegisterComponent } from './Components/register/register.component';
@@ -34,6 +37,8 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { TextFieldModule } from '@angular/cdk/text-field';
 // import { DisplayNotesComponent } from './Components/display-note/display-notes.component'; // Fixed path
 import { DisplayNoteComponent } from './Components/display-note/display-note.component';
+import { ArchiveNoteComponent } from './Components/archive-note/archive-note.component';
+// import { TrashNoteComponent } from './Components/trash-note/trash-note.component';
 
 
 @NgModule({
@@ -50,12 +55,15 @@ import { DisplayNoteComponent } from './Components/display-note/display-note.com
     DisplayNoteComponent,
     IconButtonComponent,
     GetNoteComponent,
-    UpdateNotesComponent
+    UpdateNotesComponent,
+    ArchiveNoteComponent,
+    // TrashNoteComponent
   ],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
     AppRoutingModule,
+    RouterModule,
     MatCardModule,
     MatButtonModule,
     FormsModule,

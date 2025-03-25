@@ -6,6 +6,15 @@ import { HttpHeaders } from '@angular/common/http';
   providedIn: 'root'
 })
 export class NotesService {
+  deleteNote(noteId: string) {
+    throw new Error('Method not implemented.');
+  }
+  restoreNote(noteId: string) {
+    throw new Error('Method not implemented.');
+  }
+  deleteNotePermanently(noteId: string) {
+    throw new Error('Method not implemented.');
+  }
   token: any;
 
   constructor(private httpService: HttpService) {
@@ -33,7 +42,8 @@ export class NotesService {
     return this.httpService.getService('http://localhost:5021/api/Notes', true, header);
   }
 
-  updateNotes(reqData: any, notesId: any) {
+  updateNotes(notesId: any,reqData: any ) {
+    
     let header = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
@@ -42,6 +52,7 @@ export class NotesService {
     };
     return this.httpService.putService(`http://localhost:5021/api/Notes/${notesId}`, reqData, true, header);
   }
+
 
  // In notes.service.ts
 trashNotes(noteId: string) {
@@ -54,6 +65,7 @@ trashNotes(noteId: string) {
   return this.httpService.putService(`http://localhost:5021/api/Notes/${noteId}/Trash`, {}, true, header);
 }
 
+
   archiveNotes(noteId: string) {
     let header = {
       headers: new HttpHeaders({
@@ -63,4 +75,8 @@ trashNotes(noteId: string) {
     };
     return this.httpService.putService(`http://localhost:5021/api/Notes/${noteId}/Archive`, {}, true, header);
   }
+}
+
+function throwError(arg0: () => Error) {
+  throw new Error('Function not implemented.');
 }

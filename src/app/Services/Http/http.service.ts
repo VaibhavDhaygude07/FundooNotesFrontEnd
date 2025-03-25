@@ -6,6 +6,8 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class HttpService {
+  baseUrl: any;
+  httpService: any;
 
   constructor(private http: HttpClient) { }
 
@@ -27,6 +29,18 @@ export class HttpService {
 
   deleteService(reqUrl: string, token: boolean = false, httpOption: any = {}): Observable<any> {
     return this.http.delete(reqUrl, token ? httpOption : {});
+  }
+
+  trashNotes(noteId: string): Observable<any> {
+    return this.httpService.putService(`${this.baseUrl}/${noteId}/Trash`, {}, true, this.getHeaders());
+  }
+  getHeaders(): any {
+    throw new Error('Method not implemented.');
+  }
+
+  // ✅ Get Deleted Notes (Trash)
+  getDeletedNotes(): Observable<any> {
+    return this.httpService.getService(`${this.baseUrl}/Deleted`, true, this.getHeaders());
   }
 
 }

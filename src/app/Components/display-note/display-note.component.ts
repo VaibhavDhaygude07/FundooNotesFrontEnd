@@ -3,7 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { UpdateNotesComponent } from '../update-note/update-note.component';
 
 interface Note {
-  notes_id: number;
+  noteId: number;
   title: string;
   description: string;
   color: string;
@@ -32,19 +32,20 @@ export class DisplayNoteComponent implements OnInit {
   constructor(public dialog:MatDialog) {}
 
   ngOnInit(): void {
-  
+    
+    
   }
   editNoteDialogBox(note: Note) {
-  const dialogbox = this.dialog.open(UpdateNotesComponent, {
-    width: '40%',
-    height: 'auto',
-    data: note // Pass the specific note object
-  });
+    const dialogbox = this.dialog.open(UpdateNotesComponent, {
+      width: '40%',
+      height: 'auto',
+      data: note // Pass the specific note object
+    });
 
-  dialogbox.afterClosed().subscribe(result => {
-    console.log(result);
-  });
-}
+    dialogbox.afterClosed().subscribe(result => {
+      console.log(result);
+    });
+  }
 
   togglePin(note: Note) {
     note.isPinned = !note.isPinned;

@@ -1,0 +1,7 @@
+<div *ngFor="let note of archivedNotes">
+  <div class="note-card">
+    <h3>{{ note.title }}</h3>
+    <p>{{ note.description }}</p>
+    <button (click)="unarchiveNote(note.noteId)">Unarchive</button>
+  </div>
+</div>

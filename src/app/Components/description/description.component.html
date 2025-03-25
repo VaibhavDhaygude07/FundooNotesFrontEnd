@@ -4,7 +4,7 @@
 
       <!-- Collapsed State -->
       <div class="note-input" *ngIf="!isExpanded">
-        <input placeholder="Take a note..." readonly (click)="expandNote()"> <!-- Add click handler here -->
+        <input placeholder="Take a note..." readonly (click)="expandNote()"> 
         <div class="quick-actions">
           <button mat-icon-button>
             <span class="material-icons-outlined">check_box</span>
@@ -21,10 +21,10 @@
       <!-- Expanded State -->
       <div class="note-expanded" *ngIf="isExpanded">
         <form [formGroup]="noteForm" (ngSubmit)="closeNote($event)">
-          <input formControlName="Title" type="Title" placeholder="Title" [(ngModel)]="noteTitle" class="title-input">
+          <input formControlName="title" type="text" placeholder="Title" class="title-input">
 
-          <textarea formControlName="Description" type="Description" placeholder="Take a note..."
-            [(ngModel)]="noteContent" class="content-input" cdkTextareaAutosize #autosize="cdkTextareaAutosize"
+          <textarea formControlName="content" placeholder="Take a note..."
+            class="content-input" cdkTextareaAutosize #autosize="cdkTextareaAutosize"
             cdkAutosizeMinRows="3" cdkAutosizeMaxRows="10">
           </textarea>
 

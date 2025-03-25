@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-dashboard',
@@ -7,9 +8,16 @@ import { Component } from '@angular/core';
   styleUrl: './dashboard.component.scss'
 })
 export class DashboardComponent {
+
   title = "Keep ";
   searchText = " ";
 
+  constructor(private router: Router) {} // Inject Router
+
+  // Function to navigate to the archive page
+  navigateToArchive() {
+    this.router.navigate(['/dashboard/archive']); // Ensure route matches app-routing.module.ts
+  }
   navItems = [
     { name: "Notes", icon: "lightbulb_outline" },
     { name: "Reminders", icon: "notifications_none" },
@@ -17,5 +25,7 @@ export class DashboardComponent {
     { name: "Archive", icon: "archive" },
     { name: "Trash", icon: "delete" },
   ]
+
+  
 
 }

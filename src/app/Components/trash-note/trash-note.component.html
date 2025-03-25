@@ -1,0 +1,18 @@
+<div class="trash-container">
+  <h2>Trash</h2>
+  <div *ngIf="trashedNotes.length === 0">No deleted notes.</div>
+
+  <div class="note-card" *ngFor="let note of trashedNotes">
+    <h3>{{ note.title }}</h3>
+    <p>{{ note.content }}</p>
+    
+    <div class="actions">
+      <!-- <button mat-button color="primary" (click)="restoreNote(note.noteId)">
+        Restore
+      </button>
+      <button mat-button color="warn" (click)="deleteNoteForever(note.noteId)">
+        Delete Forever
+      </button> -->
+    </div>
+  </div>
+</div>

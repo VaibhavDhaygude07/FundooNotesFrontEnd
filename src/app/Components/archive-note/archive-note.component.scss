@@ -1,0 +1,18 @@
+.archive-btn {
+    background-color: #f1c40f;
+    color: #fff;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    transition: background 0.3s;
+  
+    &:hover {
+      background-color: #d4ac0d;
+    }
+  }
+  

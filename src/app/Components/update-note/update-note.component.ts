@@ -4,9 +4,9 @@ import { IncomingMessage } from 'node:http';
 import { NotesService } from '../../Services/Notes/notes.service';
 
 interface Note {
-  notes_id: number;
+  noteId: number;
   title: string;
-  description: string;
+  content: string;
   color: string;
   isDeleted: boolean;
   isArchive: boolean;
@@ -26,29 +26,38 @@ export class UpdateNotesComponent {
 
   Description: string;
   Title: string;
-  id: number; // Ensure this is correctly extracted
+  noteId: number; 
   Color: string;
 
   constructor(
-    @Inject(MAT_DIALOG_DATA) public data: Note, // Use the Note interface
+    @Inject(MAT_DIALOG_DATA) public data: Note, 
     public dialogbox: MatDialogRef<UpdateNotesComponent>,
     private notesService: NotesService
   ) {
     this.Title = data.title;
-    this.Description = data.description;
-    this.id = data.notes_id; // Ensure this matches the property name in the Note interface
+    this.Description = data.content;
+    this.noteId = data.noteId; 
     this.Color = data.color;
   }
 
   
   closeDialog() {
+
+    console.log('Note ID before update:', this.noteId); // ✅ Debugging log
+
+    if (!this.noteId) {
+      console.error('❌ Error: noteId is missing');
+      return; // Stop execution if noteId is missing
+    }
     let reqData = {
       title: this.Title,
-      description: this.Description,
-      color: this.Color // Ensure this matches the backend model
+      content: this.Description,  // ✅ Corrected property name
+      color: this.Color
     };
+    
 
-    this.notesService.updateNotes(reqData, this.id).subscribe(
+    this.notesService.updateNotes(this.noteId, reqData ).subscribe(
+      
       (res: any) => {
         console.log(res);
         this.dialogbox.close();
@@ -58,6 +67,8 @@ export class UpdateNotesComponent {
       }
     );
   }
+
+  
 }
 
 
