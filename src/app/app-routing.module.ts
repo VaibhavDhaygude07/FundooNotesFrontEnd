@@ -13,10 +13,12 @@ import { AddNoteComponent } from './Components/add-note/add-note.component';
 import { GetNoteComponent } from './Components/get-note/get-note.component';
 import { UpdateNotesComponent } from './Components/update-note/update-note.component';
 import { ArchiveNoteComponent } from './Components/archive-note/archive-note.component';
-// import { TrashNoteComponent } from './Components/trash-note/trash-note.component';
+import { TrashNoteComponent } from './Components/trash-note/trash-note.component';
+
 
 
 const routes: Routes = [
+  { path: '', redirectTo: 'login', pathMatch: 'full' },
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
   { path: 'forgotpassword', component: ForgotPasswordComponent },
@@ -25,19 +27,21 @@ const routes: Routes = [
   { path: 'description', component: DescriptionComponent },
   { path: 'iconbutton', component: IconButtonComponent },
   { path: 'update', component: UpdateNotesComponent },
-  {path: 'dashboard', component: DashboardComponent,
-  children: [
-    
-    { path: 'notes', component: GetNoteComponent }, 
-    { path: 'archive', component: ArchiveNoteComponent }, 
-    { path: 'displayNote', component: DisplayNoteComponent },
-    //  { path: 'trash', component: TrashNoteComponent }, 
-    //  { path: '', redirectTo: 'notes', pathMatch: 'full' } 
-  ]
+  
+ 
+  {
+    path: 'dashboard',
+    component: DashboardComponent,
+    children: [
+      { path: '', redirectTo: 'notes', pathMatch: 'full' },
+      { path: 'notes', component: GetNoteComponent },
+       {path: 'archive', component:ArchiveNoteComponent},
+      
+      { path: 'trash', component: TrashNoteComponent },
+      { path: 'displayNote', component: DisplayNoteComponent }
+      
+    ]
   }
-  
-  
-  
 ];
 
 @NgModule({

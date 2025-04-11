@@ -1,5 +1,7 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { NotesService } from '../../Services/Notes/notes.service';
+import { Router } from '@angular/router';
+
 
 
 @Component({
@@ -10,6 +12,8 @@ import { NotesService } from '../../Services/Notes/notes.service';
 })
 export class IconButtonComponent implements OnInit{
   @Input() notesObject: any;
+  @Output() refreshRequested = new EventEmitter<void>();
+
 
   Color:any;
   selectedColor: string = ''; 
@@ -29,7 +33,7 @@ export class IconButtonComponent implements OnInit{
     { code: '#D3D3D3', name: 'grey' },
   ];
 
-  constructor(private notesService:NotesService){}
+  constructor(private notesService: NotesService, private router: Router) {}
   ngOnInit(): void {
     
   }
@@ -45,24 +49,6 @@ export class IconButtonComponent implements OnInit{
     });
   }
 
-  // onDelete() {
-  //   if (!this.notesObject || !this.notesObject.noteId) {
-  //     console.error("Note object is undefined or missing 'notes_id'");
-  //     return;
-  //   }
-  
-  //   const noteId = this.notesObject.noteId; 
-  //   console.log(noteId);
-  
-  //   this.notesService.trashNotes(noteId).subscribe({
-  //     next: (res: any) => {
-  //       console.log('Note trashed successfully', res);
-  //     },
-  //     error: (err) => {
-  //       console.error('Error trashing note:', err);
-  //     }
-  //   });
-  // }
   onDelete() {
     if (!this.notesObject || !this.notesObject.noteId) {
         console.error("❌ Error: Note object is undefined or missing 'noteId'");
@@ -78,42 +64,72 @@ export class IconButtonComponent implements OnInit{
     });
 }
 
-onArchive() {
-    if (!this.notesObject || !this.notesObject.noteId) {
-        console.error("❌ Error: Note object is undefined or missing 'noteId'");
-        return;
+      onArchive() {
+        const noteId = this.notesObject?.noteId;
+
+        if (!noteId) {
+          console.error("❌ Invalid noteId");
+          return;
+        }
+
+        this.notesService.archiveNotes(noteId).subscribe({
+          next: (response: any) => {
+            console.log("✅ Note archived successfully", response);
+            this.refreshRequested.emit();
+
+            // console.log("Router instance:", this.router);  // Should not be undefined
+
+            // if (this.router?.url !== '/dashboard/archive') {
+            //   this.router.navigate(['/dashboard/archive']);
+            // }
+          },
+          error: (err) => {
+            console.error("❌ Failed to archive note", err);
+          }
+        });
+      }
+
+  onUnArchive() {
+    const noteId = this.notesObject?.noteId;
+
+    if (!noteId) {
+      console.error("❌ Invalid noteId");
+      return;
     }
 
-    const noteId = this.notesObject.noteId;
-    console.log("🟢 Archiving Note ID:", noteId);
-
     this.notesService.archiveNotes(noteId).subscribe({
-        next: (res: any) => console.log('✅ Note archived successfully', res),
-        error: (err) => console.error('❌ Error archiving note:', err)
+      next: (response: any) => {
+        console.log("✅ Note unarchived successfully", response);
+        this.refreshRequested.emit();
+      },
+      error: (err) => {
+        console.error("❌ Failed to unarchive note", err);
+      }
     });
-}
+  }
+
+     
+  ontrash() {
+    const noteId = this.notesObject?.noteId;
+
+    if (!noteId) {
+      console.error("❌ Invalid noteId");
+      return;
+    }
+
+    this.notesService.trashNotes(noteId).subscribe({
+      next: (response: any) => {
+        console.log("✅ Note trashed successfully", response);
+        this.refreshRequested.emit();
+      },
+      error: (err) => {
+        console.error("❌ Failed to trash note", err);
+      }
+    });
+  }
 
 
 
-
-  
-  // onArchive(){
-  //   if (!this.notesObject || !this.notesObject.noteId) {
-  //     console.error("Note object is undefined or missing 'notesId'");
-  //     return;
-  //   }
-  //   const noteId = this.notesObject.noteId; 
-  //   console.log(noteId);
-   
-  //   this.notesService.archiveNotes(noteId).subscribe((res:any)=>{
-  //     console.log('Note Archieved successfully ',res);
-  //   }) 
-  // }
-
-  
-
- 
-  
   SelectColor(colors: any) {
     if (!this.notesObject || !this.notesObject.noteId) {
       console.error("Note object is undefined or missing 'noteId'", this.notesObject);
@@ -126,8 +142,8 @@ onArchive() {
       color: colors.code // Update only color
     };
   
-    this.selectedColor = colors.code; // Update UI color
-    this.notesObject.color = colors.code; // Reflect change immediately in UI
+    this.selectedColor = colors.code; 
+    this.notesObject.color = colors.code; 
   
     console.log("Updating Note ID:", this.notesObject.noteId, "with color:", colors.code);
   
@@ -137,9 +153,6 @@ onArchive() {
     });
   }
   
-
-
-
 }
 
 

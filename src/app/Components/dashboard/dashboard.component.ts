@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
+import { DataService } from '../../Services/DataService/data.service';
+
 
 @Component({
   selector: 'app-dashboard',
@@ -9,23 +11,31 @@ import { Router } from '@angular/router';
 })
 export class DashboardComponent {
 
-  title = "Keep ";
-  searchText = " ";
+  title = "Keep";
+  searchText: string = "";
+  activeItem: string = 'Notes';
 
-  constructor(private router: Router) {} // Inject Router
+  constructor(private router: Router, private data: DataService) {}
 
-  // Function to navigate to the archive page
-  navigateToArchive() {
-    this.router.navigate(['/dashboard/archive']); // Ensure route matches app-routing.module.ts
-  }
   navItems = [
-    { name: "Notes", icon: "lightbulb_outline" },
-    { name: "Reminders", icon: "notifications_none" },
-    { name: "Edit labels", icon: "edit" },
-    { name: "Archive", icon: "archive" },
-    { name: "Trash", icon: "delete" },
+    { name: "Notes", icon: "lightbulb_outline", route: "/dashboard/notes" },
+    { name: "Reminders", icon: "notifications_none", route: "/dashboard/reminders" },
+    { name: "Edit labels", icon: "edit", route: "/dashboard/labels" },
+    { name: "Archive", icon: "archive", route: "/dashboard/archive" },
+    { name: "Trash", icon: "delete", route: "/dashboard/trash" },
   ]
 
+  navigateTo(route: string, itemName: string) {
+    this.activeItem = itemName;
+    this.router.navigate([route]);
+  }
+
   
+
+  search(event: any) {
+   console.log(event.target.value);
+    this.data.outgoingData(event.target.value);
+  }
+
 
 }

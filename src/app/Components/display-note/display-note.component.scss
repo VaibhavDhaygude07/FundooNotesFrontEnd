@@ -5,7 +5,7 @@
 
 .notes-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(232px, 1fr)); // increased width
   gap: 16px;
 }
 
@@ -16,25 +16,30 @@
   transition: box-shadow 0.2s ease-in-out;
   background: white;
   break-inside: avoid;
+  padding: 8px;
+
+  .note-actions,
+  ::ng-deep app-icon-button {
+    opacity: 0;
+    transition: opacity 0.2s ease-in-out;
+  }
 
   &:hover {
-    box-shadow: 0 1px 2px 0 rgba(60,64,67,0.302), 0 1px 3px 1px rgba(60,64,67,0.149);
-    
-    .note-actions {
-      opacity: 1;
-    }
-    
-    .select-button {
+    box-shadow: 0 1px 2px 0 rgba(60, 64, 67, 0.302),
+      0 1px 3px 1px rgba(60, 64, 67, 0.149);
+
+    .note-actions,
+    ::ng-deep app-icon-button {
       opacity: 1;
     }
   }
 
   &.selected {
     border: 2px solid #1a73e8;
-    
+
     .select-button {
       opacity: 1;
-      
+
       .material-icons-outlined.selected {
         color: #1a73e8;
       }
@@ -43,29 +48,25 @@
 }
 
 .note-content {
-  padding: 12px 16px;
-  min-height: 108px;
+  padding: 8px 12px;
+  min-height: 60px; // reduced height
   position: relative;
 }
 
-.note-text {
-  padding-top: 12px;
-  padding-bottom: 12px;
-}
-
 .note-title {
-  font-size: 16px;
+  font-size: 15px;
   font-weight: 500;
   color: #202124;
-  margin-bottom: 12px;
+  margin-bottom: 16px; // Increased space between title and description
   word-wrap: break-word;
 }
 
 .note-body {
-  font-size: 14px;
+  font-size: 13px;
+  font-weight: 400;
   color: #202124;
   word-wrap: break-word;
-  margin-bottom: 12px;
+  margin-bottom: 6px;
 }
 
 .select-button {
@@ -91,34 +92,9 @@
   .material-icons-outlined {
     font-size: 20px;
     color: #5f6368;
-    
+
     &.pinned {
       color: rgb(25, 103, 210);
-    }
-  }
-}
-
-.collaborators {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  margin-bottom: 12px;
-  
-  .collaborator {
-    display: flex;
-    align-items: center;
-    background-color: rgba(0,0,0,0.05);
-    border-radius: 16px;
-    padding: 2px 8px;
-    
-    .collab-icon {
-      font-size: 16px;
-      margin-right: 4px;
-    }
-    
-    .collab-email {
-      font-size: 12px;
-      color: #5f6368;
     }
   }
 }
@@ -127,19 +103,18 @@
   display: flex;
   align-items: center;
   gap: 3px;
-  opacity: 0;
-  transition: opacity 0.2s;
-  padding-top: 8px;
+  transition: opacity 0.2s ease-in-out;
+  padding-top: 6px;
 
   button {
-    width: 32px;
-    height: 32px;
+    width: 28px;
+    height: 28px;
     display: flex;
     align-items: center;
     justify-content: center;
-    
+
     &:hover {
-      background-color: rgba(95,99,104,0.039);
+      background-color: rgba(95, 99, 104, 0.039);
     }
 
     .material-icons-outlined {
@@ -147,43 +122,74 @@
       color: #5f6368;
       width: 18px;
       height: 18px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
     }
   }
 }
 
-// Loading, error, and empty states
-.loading-container, .error-container, .empty-container {
+::ng-deep app-icon-button button {
+  opacity: 0;
+  transition: opacity 0.2s ease-in-out;
+}
+
+.note-card:hover ::ng-deep app-icon-button button {
+  opacity: 1;
+}
+
+.collaborators {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 12px;
+
+  .collaborator {
+    display: flex;
+    align-items: center;
+    background-color: rgba(0, 0, 0, 0.05);
+    border-radius: 16px;
+    padding: 2px 8px;
+
+    .collab-icon {
+      font-size: 16px;
+      margin-right: 4px;
+    }
+
+    .collab-email {
+      font-size: 12px;
+      color: #5f6368;
+    }
+  }
+}
+
+.loading-container,
+.error-container,
+.empty-container {
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: center;
   padding: 48px 0;
   color: #5f6368;
-  
+
   p {
     margin-top: 16px;
     font-size: 16px;
   }
-  
+
   button {
     margin-top: 16px;
   }
 }
 
-.error-icon, .empty-icon {
+.error-icon,
+.empty-icon {
   font-size: 48px;
   color: #5f6368;
   opacity: 0.5;
 }
 
-// Menu styling
 .mat-menu-item {
   .material-icons-outlined {
     margin-right: 8px;
     color: #5f6368;
   }
 }
-

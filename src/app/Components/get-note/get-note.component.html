@@ -1,5 +1,9 @@
-<app-description></app-description>
-<app-display-note
-  [notes]="note" 
-  [error]="error"
-></app-display-note>
+  <app-description></app-description>
+  <!-- <div *ngIf="loading">Loading notes...</div> -->
+  <div *ngIf="error">{{ error }}</div>
+  <app-display-note 
+    *ngIf="!loading && !error"
+    [notes]="noteList"
+    [isArchiveView]="false">
+  </app-display-note>
+    

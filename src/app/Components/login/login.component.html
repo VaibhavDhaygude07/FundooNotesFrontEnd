@@ -13,16 +13,28 @@
                 <form [formGroup]="loginForm" (ngSubmit)="Login()">
                     <div class="form-field">
                         <input type="email" placeholder="Email or phone" formControlName="email">
+                        <mat-error *ngIf="loginForm.get('email')?.hasError('required')">
+                            Email is required
+                        </mat-error>
+                        <mat-error *ngIf="loginForm.get('email')?.hasError('email')">
+                            Provide valid email
+                        </mat-error>
                     </div>
 
 
 
                     <div class="form-field">
                         <input placeholder="Password" formControlName="password">
+                        <mat-error *ngIf="loginForm.get('password')?.hasError('required')">
+                            Password is required
+                        </mat-error>
+                        <mat-error *ngIf="loginForm.get('password')?.hasError('password')">
+                            Provide valid password
+                        </mat-error>
                     </div>
 
                     <div class="forgot-password">
-                        <a href="#">Forgot password?</a>
+                        <a routerLink="/forgotpassword" href="#">Forgot password?</a>
                     </div>
 
                     <div class="guest-mode-text">
@@ -30,7 +42,8 @@
                     </div>
 
                     <div class="action-buttons">
-                        <a href="#" class="create-account">Create account</a>
+                        <a routerLink="/register" class="create-account">Create account</a>
+
                         <button mat-raised-button type="submit" class="NextButton">Next</button>
                     </div>
                 </form>

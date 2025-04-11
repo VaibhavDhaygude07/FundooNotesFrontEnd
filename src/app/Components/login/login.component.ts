@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { UserService } from '../../Services/User/user.service';
 
 @Component({
   selector: 'app-login',
   standalone: false,
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.scss']  // ✅ Fixed
+  styleUrls: ['./login.component.scss']  
 })
 export class LoginComponent implements OnInit {
   loginForm!: FormGroup;
@@ -15,8 +15,8 @@ export class LoginComponent implements OnInit {
 
   ngOnInit(): void {
     this.loginForm = this.formbuild.group({
-      email: [''],
-      password: ['']
+      email: ['',[Validators.required, Validators.email]],
+      password: ['',[Validators.required, Validators.pattern('^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{8,}$')]] // At least 8 characters, 1 letter and 1 number 
     });
   }
 
@@ -32,7 +32,7 @@ export class LoginComponent implements OnInit {
         localStorage.setItem("token", res.data);
       },
       (error) => {
-        console.error("Login failed:", error);  // ✅ Error handling added
+        console.error("Login failed:", error);  
       }
     );
   }

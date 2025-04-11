@@ -53,6 +53,17 @@
     margin-bottom: 22px;
     color: #202124;
 }
+.full-width {
+    width: 100%;
+    margin-bottom: 20px;
+  }
+  
+  mat-error {
+    font-size: 13px;
+    color: red;
+    margin-top: 4px;
+  }
+  
 
 .form-field {
     width: 100%;

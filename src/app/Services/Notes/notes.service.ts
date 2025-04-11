@@ -1,11 +1,20 @@
 import { Injectable } from '@angular/core';
 import { HttpService } from '../Http/http.service';
 import { HttpHeaders } from '@angular/common/http';
+import { catchError, Observable, throwError } from 'rxjs';
+import  { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
 })
 export class NotesService {
+  outgoingData(value: any) {
+    throw new Error('Method not implemented.');
+  }
+  
+  http: any;
+  
+ 
   deleteNote(noteId: string) {
     throw new Error('Method not implemented.');
   }
@@ -17,10 +26,10 @@ export class NotesService {
   }
   token: any;
 
-  constructor(private httpService: HttpService) {
-    this.token = localStorage.getItem('token');
-  }
-
+  
+constructor(private httpService: HttpService, private router: Router) {
+  this.token = localStorage.getItem('token');
+}
   addNotes(reqData: any) {
     let header = {
       headers: new HttpHeaders({
@@ -55,28 +64,32 @@ export class NotesService {
 
 
  // In notes.service.ts
-trashNotes(noteId: string) {
-  let header = {
-    headers: new HttpHeaders({
-      'Content-Type': 'application/json',
-      'Authorization': 'Bearer ' + this.token
-    })
-  };
-  return this.httpService.putService(`http://localhost:5021/api/Notes/${noteId}/Trash`, {}, true, header);
-}
-
-
-  archiveNotes(noteId: string) {
+  trashNotes(noteId: string) {
     let header = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
         'Authorization': 'Bearer ' + this.token
       })
     };
-    return this.httpService.putService(`http://localhost:5021/api/Notes/${noteId}/Archive`, {}, true, header);
+    return this.httpService.putService(`http://localhost:5021/api/Notes/${noteId}/Trash`, {}, true, header);
   }
+
+archiveNotes(noteId: string) {
+    const header = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${this.token}`
+      })
+    };
+    return this.httpService.putService(
+      `http://localhost:5021/api/Notes/${noteId}/Archive`,  {},  true,  header);
+  }
+
+ 
+
+
 }
 
-function throwError(arg0: () => Error) {
-  throw new Error('Function not implemented.');
-}
+ 
+
+

@@ -38,9 +38,9 @@ export class DescriptionComponent implements OnInit {
 
   ngOnInit(): void {
     this.noteForm = this.formBuild.group({
-      title: [""],      // ✅ Match expected field name
-      content: [""],    // ✅ Changed from "description" to "content"
-      color: ["#FFFFFF"], // ✅ Default color to avoid validation error
+      title: [""],     
+      content: [""],    
+      color: ["#FFFFFF"], 
     });
   }
   // Function to handle color change
@@ -54,25 +54,29 @@ updateColor(newColor: string) {
 
   closeNote(event: Event) {
     event.preventDefault();
-
+  
     let reqData = {
-      title: this.noteForm.get("title")?.value,
-      content: this.noteForm.get("content")?.value, // ✅ Changed from "description" to "content"
+      title: this.noteForm.get("title")?.value?.trim(),
+      content: this.noteForm.get("content")?.value?.trim(),
       color: this.noteForm.get("color")?.value || "#FFFFFF",
     };
-
+  
     console.log("📌 Request Data:", reqData);
-
-    if (!reqData.title || !reqData.content) {
-      console.error("⚠️ Error: Title or Content is missing!");
+  
+    // If both fields are empty, just close without submitting
+    if (!reqData.title && !reqData.content) {
+      console.warn("📝 Empty note. Closing without saving.");
+      this.isExpanded = false;
+      this.noteForm.reset({ color: "#FFFFFF" });
       return;
     }
-
+  
+    // Otherwise, proceed to save
     this.noteService.addNotes(reqData).subscribe(
       (res: any) => {
         console.log("✅ Note added successfully:", res);
         this.isExpanded = false;
-        this.noteForm.reset({ color: "#FFFFFF" }); // Reset with default color
+        this.noteForm.reset({ color: "#FFFFFF" });
       },
       (error) => {
         console.error("❌ Error while adding note:", error);
