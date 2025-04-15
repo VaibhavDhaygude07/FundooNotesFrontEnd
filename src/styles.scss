@@ -2,3 +2,22 @@
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+.material-icons-outlined {
+    color: rgba(0, 0, 0, 0.7) !important; // Or any visible color
+    font-size: 20px !important;
+  }
+
+  .material-icons-outlined {
+    font-family: 'Material Icons Outlined', 'Material Icons', sans-serif !important;
+    font-weight: normal !important;
+    font-style: normal !important;
+    font-size: 20px !important;
+    display: inline-block;
+    line-height: 1;
+    letter-spacing: normal;
+    text-transform: none;
+    white-space: nowrap;
+    direction: ltr;
+    color: rgba(0, 0, 0, 0.87) !important;
+  }
+  

@@ -52,7 +52,8 @@ export class UpdateNotesComponent {
     let reqData = {
       title: this.Title,
       content: this.Description,  // ✅ Corrected property name
-      color: this.Color
+      // color: this.Color
+       color: this.data.color
     };
     
 

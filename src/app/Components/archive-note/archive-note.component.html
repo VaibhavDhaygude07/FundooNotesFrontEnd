@@ -1,8 +1,11 @@
 <!-- <app-display-note 
-  *ngIf="!loading && !error"
-  
-  [isArchiveView]="true">
+  [notes]="archiveList"
+  [loading]="loading"
+  [error]="error"
+  [isArchiveView]="true"
+  (refreshRequested)="handleRefresh()">
 </app-display-note> -->
+
 
 <app-display-note 
   [notes]="archiveList"
@@ -10,7 +13,9 @@
   [error]="error"
   [isArchiveView]="true"
   (retry)="getArchivedNotes()"
-  (refreshNotes)="getArchivedNotes()">
+  (refreshNotes)="getArchivedNotes()"
+  (refreshRequested)="handleRefresh()"
+  (retry)="handleRefresh()">
 </app-display-note>
 
 

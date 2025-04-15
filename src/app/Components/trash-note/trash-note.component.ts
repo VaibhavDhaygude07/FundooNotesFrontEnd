@@ -5,9 +5,10 @@ interface Note {
   noteId: number;
   title: string;
   description: string;
-  content: string; // <- required!
+  content: string; 
   color: string;
   isDeleted: boolean;
+  isTrashed: boolean; 
   isArchive: boolean;
   id: number;
   isPinned?: boolean;
@@ -22,7 +23,7 @@ interface Note {
   styleUrl: './trash-note.component.scss'
 })
 export class TrashNoteComponent   implements OnInit{
-  trashList: Note[] = [];
+  trashList:  any[] = [];
   loading = true;
   error: string = '';
 
@@ -34,18 +35,24 @@ export class TrashNoteComponent   implements OnInit{
 
   getTrashedNotes() {
     this.notesService.getNotes().subscribe({
-      next: (response: Note[]) => {
-        console.log("All Notes:", response);
-        this.trashList = response.filter(note => note.isDeleted === true);
-        console.log("Trashed Notes:", this.trashList);
-        this.loading = false;
+      next: (response: any) => {
+        this.trashList = response;
+  
+        console.log("Fetched trash list:", this.trashList);
+          this.trashList = this.trashList.filter(note =>  note.isTrashed && !note.isDeleted );
+          console.log("Filtered trash list:", this.trashList);
+        
+  
+        this.loading = false; 
       },
-      error: (err) => {
-        console.error('Error fetching notes:', err);
-        this.error = 'Failed to load trashed notes.';
-        this.loading = false;
+      error: (error) => {
+        console.error("Error fetching notes:", error);
+        this.error = "Failed to load notes.";
+        this.loading = false; 
       }
     });
   }
+  handleRefresh() {
+    this.getTrashedNotes();
+  }
 }
-

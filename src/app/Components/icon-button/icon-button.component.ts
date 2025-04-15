@@ -51,19 +51,24 @@ export class IconButtonComponent implements OnInit{
 
   onDelete() {
     if (!this.notesObject || !this.notesObject.noteId) {
-        console.error("❌ Error: Note object is undefined or missing 'noteId'");
-        return;
+      console.error("❌ Error: Note object is undefined or missing 'noteId'");
+      return;
     }
-
+  
     const noteId = this.notesObject.noteId;
     console.log("🟢 Deleting Note ID:", noteId);
-
+  
     this.notesService.trashNotes(noteId).subscribe({
-        next: (res: any) => console.log('✅ Note trashed successfully', res),
-        error: (err) => console.error('❌ Error trashing note:', err)
+      next: (res: any) => {
+        console.log("Note trashed successfully:", res);
+        this.refreshRequested.emit(); // Emit the event to refresh the notes list
+      },
+      error: (err) => {
+        console.error("Error deleting note:", err);
+      }
     });
-}
-
+  }
+  
       onArchive() {
         const noteId = this.notesObject?.noteId;
 
@@ -77,11 +82,7 @@ export class IconButtonComponent implements OnInit{
             console.log("✅ Note archived successfully", response);
             this.refreshRequested.emit();
 
-            // console.log("Router instance:", this.router);  // Should not be undefined
-
-            // if (this.router?.url !== '/dashboard/archive') {
-            //   this.router.navigate(['/dashboard/archive']);
-            // }
+            
           },
           error: (err) => {
             console.error("❌ Failed to archive note", err);
@@ -108,26 +109,39 @@ export class IconButtonComponent implements OnInit{
     });
   }
 
-     
-  ontrash() {
-    const noteId = this.notesObject?.noteId;
+      // trashNote() {
+      //   const noteId  = this.notesObject?.noteId;
+      //   if (!noteId) {
+      //     console.error("❌ Invalid noteId");
+      //     return;
+      //   }
+      //   this.notesService.trashNotes(noteId).subscribe({
+      //     next: (response: any) => {
+      //       console.log("✅ Note trashed successfully", response);
+      //       this.refreshRequested.emit();
+      //     },
+      //     error: (err) => {
+      //       console.error("❌ Failed to trash note", err);
+      //     }
+      //   });
+      // }
 
-    if (!noteId) {
-      console.error("❌ Invalid noteId");
-      return;
-    }
-
-    this.notesService.trashNotes(noteId).subscribe({
-      next: (response: any) => {
-        console.log("✅ Note trashed successfully", response);
-        this.refreshRequested.emit();
-      },
-      error: (err) => {
-        console.error("❌ Failed to trash note", err);
-      }
-    });
-  }
-
+      // untrashNote() {
+      //   const noteId  = this.notesObject?.noteId;
+      //   if (!noteId) {
+      //     console.error("❌ Invalid noteId");
+      //     return;
+      //   }
+      //   this.notesService.trashNotes(noteId).subscribe({
+      //     next: (response: any) => {
+      //       console.log("✅ Note untrashed successfully", response);
+      //       this.refreshRequested.emit();
+      //     },
+      //     error: (err) => {
+      //       console.error("❌ Failed to untrash note", err);
+      //     }
+      //   });
+      // }
 
 
   SelectColor(colors: any) {

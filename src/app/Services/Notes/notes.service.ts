@@ -15,15 +15,11 @@ export class NotesService {
   http: any;
   
  
-  deleteNote(noteId: string) {
-    throw new Error('Method not implemented.');
-  }
+  // Removed duplicate deleteNote method to resolve the error.
   restoreNote(noteId: string) {
     throw new Error('Method not implemented.');
   }
-  deleteNotePermanently(noteId: string) {
-    throw new Error('Method not implemented.');
-  }
+  
   token: any;
 
   
@@ -63,16 +59,19 @@ constructor(private httpService: HttpService, private router: Router) {
   }
 
 
- // In notes.service.ts
   trashNotes(noteId: string) {
-    let header = {
+    const headers = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
         'Authorization': 'Bearer ' + this.token
       })
     };
-    return this.httpService.putService(`http://localhost:5021/api/Notes/${noteId}/Trash`, {}, true, header);
+    return this.httpService.putService(
+      `http://localhost:5021/api/Notes/${noteId}/Trash`, {}, true, headers
+    );
   }
+  
+  
 
 archiveNotes(noteId: string) {
     const header = {
@@ -82,9 +81,20 @@ archiveNotes(noteId: string) {
       })
     };
     return this.httpService.putService(
-      `http://localhost:5021/api/Notes/${noteId}/Archive`,  {},  true,  header);
+      `http://localhost:5021/api/Notes/${noteId}/Archive`, {},  true,  header);
   }
 
+  deleteNote(noteId: string) {
+    const headers = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + this.token
+      })
+    };
+    return this.httpService.deleteService(
+      `http://localhost:5021/api/Notes/${noteId}`, true, headers
+    );
+  }
  
 
 

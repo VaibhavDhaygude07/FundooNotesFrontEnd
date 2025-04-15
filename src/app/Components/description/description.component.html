@@ -20,7 +20,7 @@
 
       <!-- Expanded State -->
       <div class="note-expanded" *ngIf="isExpanded">
-        <form [formGroup]="noteForm" (ngSubmit)="closeNote($event)">
+        <form [formGroup]="noteForm" >
           <input formControlName="title" type="text" placeholder="Title" class="title-input">
 
           <textarea formControlName="content" placeholder="Take a note..."
@@ -31,16 +31,41 @@
           <div class="note-actions">
             <div class="left-actions">
               <app-icon-button></app-icon-button>
+               
+              
+              <!-- <button mat-icon-button matTooltip="Remind me">
+                <span class="material-icons-outlined">notifications</span>
+              </button>
+              <button mat-icon-button matTooltip="Collaborator">
+                <span class="material-icons-outlined">person_add</span>
+              </button>
+              <button mat-icon-button matTooltip="Color"> 
+                <span class="material-icons-outlined">palette</span>
+              </button>
+              <button mat-icon-button matTooltip="Add image">
+                <span class="material-icons-outlined">image</span>
+              </button>
+              <button mat-icon-button matTooltip="Archive" >
+                <span class="material-icons-outlined">archive</span>
+              </button> -->
+              <!-- More options menu -->
+              <mat-menu #menu="matMenu">
+                <button mat-menu-item >
+                  <!-- <span class="material-icons-outlined" >delete</span> -->
+                  <span>Delete</span>
+                </button>
+              </mat-menu>
+              
 
-              <button mat-icon-button matTooltip="Undo">
+              <!-- <button mat-icon-button matTooltip="Undo">
                 <span class="material-icons-outlined">undo</span>
               </button>
               <button mat-icon-button matTooltip="Redo">
                 <span class="material-icons-outlined">redo</span>
-              </button>
+              </button> -->
             </div>
 
-            <button mat-button type="submit">Close</button>
+            <button mat-button type="submit" (click)="closeNote($event)">Close</button>
           </div>
         </form>
       </div>

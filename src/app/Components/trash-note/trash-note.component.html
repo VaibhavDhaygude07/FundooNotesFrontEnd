@@ -4,5 +4,6 @@
   [error]="error"
   [isArchiveView]="false"
   (retry)="getTrashedNotes()"
+  (refreshRequested)="handleRefresh()"
   (refreshRequested)="getTrashedNotes()">
 </app-display-note>

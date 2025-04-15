@@ -1,28 +1,58 @@
-<div class="notes-grid" *ngIf="!loading && !error && notes.length > 0">
-  <mat-card
-    class="note-card"
-    *ngFor="let note of notes | search: searchNote"
-    [style.background-color]="note.color?.toLowerCase() || 'white'">
-
-    <!-- Note content -->
-    <div class="note-content" (click)="editNoteDialogBox(note)">
-      <div class="note-title" *ngIf="note.title">{{ note.title }}</div>
-      <div class="note-body" *ngIf="note.description && note.description.trim().length > 0">
-        {{ note.description }}
-      </div>
-      <div class="note-body" *ngIf="note.content && note.content.trim().length > 0">
-        {{ note.content }}
-      </div>
-    </div>
-
-    <!-- Actions -->
-    <div class="note-actions">
-      <app-icon-button [notesObject]="note" (refreshRequested)="onRefreshRequested()"></app-icon-button>
-
-
+<div *ngIf="!loading && !error && notes.length > 0">
+  <!-- Grid View -->
+  <div class="notes-grid" *ngIf="viewMode === 'grid'">
+    <ng-container *ngFor="let note of notes | search: searchNote">
+      <mat-card
+        class="note-card"
+        [style.background-color]="note.color?.toLowerCase() || 'white'"
       
-    </div>
-  </mat-card>
+      > 
+      <!-- *ngIf="(!isArchiveView && !note.isArchive || isArchiveView && note.isArchive) && (!isTrashView && !note.isTrash || isTrashView && note.isTrash)" -->
+        <!-- Note content -->
+        <div class="note-content" (click)="editNoteDialogBox(note)">
+          <div class="note-title" *ngIf="note.title">{{ note.title }}</div>
+          <div class="note-body" *ngIf="note.description && note.description.trim().length > 0">
+            {{ note.description }}
+          </div>
+          <div class="note-body" *ngIf="note.content && note.content.trim().length > 0">
+            {{ note.content }}
+          </div>
+        </div>
+
+        <!-- Actions -->
+        <div class="note-actions">
+          <app-icon-button [notesObject]="note" (refreshRequested)="onRefreshRequested()"></app-icon-button>
+        </div>
+      </mat-card>
+    </ng-container>
+  </div>
+
+  <!-- List View -->
+  <div class="notes-list" *ngIf="viewMode === 'list'">
+    <ng-container *ngFor="let note of notes | search: searchNote">
+      <mat-card
+        class="note-list-item"
+        [style.background-color]="note.color?.toLowerCase() || 'white'"
+        *ngIf="(!isArchiveView && !note.isArchive || isArchiveView && note.isArchive) && (!isTrashView && !note.isTrash || isTrashView && note.isTrash)"
+      >
+        <div class="list-item-content" (click)="editNoteDialogBox(note)">
+          <div class="list-item-header">
+            <div class="note-title" *ngIf="note.title">{{ note.title }}</div>
+            <div class="note-date" *ngIf="note.updatedAt">{{ note.updatedAt | date:'medium' }}</div>
+          </div>
+          <div class="note-body" *ngIf="note.description && note.description.trim().length > 0">
+            {{ note.description }}
+          </div>
+          <div class="note-body" *ngIf="note.content && note.content.trim().length > 0">
+            {{ note.content }}
+          </div>
+        </div>
+        <div class="list-item-actions">
+          <app-icon-button [notesObject]="note" (refreshRequested)="onRefreshRequested()"></app-icon-button>
+        </div>
+      </mat-card>
+    </ng-container>
+  </div>
 </div>
 
 <!-- Retry/Error/Loading States -->
@@ -34,7 +64,3 @@
 <div *ngIf="loading">
   <mat-spinner></mat-spinner>
 </div>
-
-<!-- <div *ngIf="!loading && !error && notes.length === 0">
-  <p class="no-notes-text">No notes to display.</p>
-</div> -->

@@ -14,8 +14,17 @@ export class DashboardComponent {
   title = "Keep";
   searchText: string = "";
   activeItem: string = 'Notes';
+  viewMode: 'grid' | 'list' = 'grid';
 
   constructor(private router: Router, private data: DataService) {}
+
+  ngOnInit() {
+    const savedViewMode = localStorage.getItem('viewMode') as 'grid' | 'list';
+    if (savedViewMode) {
+      this.viewMode = savedViewMode;
+      this.data.changeViewMode(savedViewMode); // Initialize the service with saved mode
+    }
+  }
 
   navItems = [
     { name: "Notes", icon: "lightbulb_outline", route: "/dashboard/notes" },
@@ -30,12 +39,21 @@ export class DashboardComponent {
     this.router.navigate([route]);
   }
 
-  
+  logout() {
+   
+    localStorage.clear();
+    sessionStorage.clear();
+    this.router.navigate(['/login']);
+  }
 
   search(event: any) {
    console.log(event.target.value);
     this.data.outgoingData(event.target.value);
   }
 
+  toggleView() {
+    this.viewMode = this.viewMode === 'grid' ? 'list' : 'grid';
+    this.data.changeViewMode(this.viewMode); // Send the new view mode
+  }
 
 }

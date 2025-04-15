@@ -28,12 +28,25 @@
     noteList: any[] = [];
     loading = true;
     error: string | null = null;
+    viewMode: 'grid' | 'list' = 'grid'; 
   
+    data = {
+      currentViewMode: {
+        subscribe: (callback: (mode: 'grid' | 'list') => void) => {
+          // Mock implementation for subscription
+          callback('grid'); // Default mode
+        }
+      }
+    };
+
     constructor(private notesService: NotesService) {}
   
     ngOnInit(): void {
       this.loadNotes();
-      // this.getNotes();
+      this.data.currentViewMode.subscribe((mode: 'grid' | 'list') => {
+        this.viewMode = mode;
+      });
+  
     }
   
     loadNotes() {
@@ -43,7 +56,8 @@
       this.notesService.getNotes().subscribe({
         next: (response: any) => {
           const notesArray = this.extractNotes(response);
-          this.noteList = notesArray.filter(note => !note.archive && !note.trash);
+          this.noteList = notesArray.filter(note => !note.isArchive && !note.isDeleted && !note.isTrashed);
+         
           this.loading = false;
         },
         error: (err) => {
@@ -53,21 +67,27 @@
         }
       });
     }
+    handleRefresh() {
+      this.loadNotes();
+    }
 
-
-    // getNotes() {
-    //   this.loading = true;
-    //   this.notesService.getNotes().subscribe({
-    //     next: (res: any) => {
-    //       this.noteList = res.data || []; // depends on your API structure
-    //       this.loading = false;
-    //     },
-    //     error: (err) => {
-    //       this.error = 'Failed to fetch notes';
-    //       this.loading = false;
-    //     }
-    //   });
-    // }
+    getNotes() {
+      this.notesService.getNotes().subscribe({
+        next: (response: any) => {
+          this.noteList = response.filter((note: any) =>
+            note.isArchive === false && note.isTrashed === false
+          );
+        },
+        error: (err) => {
+          console.error('Error fetching notes:', err);
+        }
+      });
+    }
+    
+    toggleViewMode() {
+      this.viewMode = this.viewMode === 'grid' ? 'list' : 'grid';
+    }
+    
   
     extractNotes(response: any): any[] {
       if (Array.isArray(response)) return response;

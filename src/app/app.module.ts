@@ -25,7 +25,7 @@ import { ForgotPasswordComponent } from './Components/forgot-password/forgot-pas
 import { ResetPasswordComponent } from './Components/reset-password/reset-password.component';
 import { HttpClientModule } from '@angular/common/http';
 import { DashboardComponent } from './Components/dashboard/dashboard.component';
-import { MatMenuTrigger } from "@angular/material/menu";
+// import { MatMenuTrigger } from "@angular/material/menu";
 import { ToDoListComponent } from './Components/to-do-list/to-do-list.component';
 import { DescriptionComponent } from './Components/description/description.component';
 import { IconButtonComponent } from './Components/icon-button/icon-button.component';
@@ -82,7 +82,7 @@ import { SearchPipe } from './Pipes/search.pipe';
     MatMenuModule,
     MatTooltipModule,
     TextFieldModule,
-    MatMenuTrigger,
+    // MatMenuTrigger,
     MatProgressSpinnerModule,
     MatDialogModule,
   ],

@@ -8,6 +8,7 @@ interface Note {
   color: string;
   isDeleted: boolean;
   isArchive: boolean;
+  isTrashed: boolean;
   id: number;
   isPinned?: boolean;
   isSelected?: boolean;
@@ -29,6 +30,7 @@ export class ArchiveNoteComponent implements OnInit {
 
   ngOnInit(): void {
     this.getArchivedNotes();
+    
   }
 
   getArchivedNotes() {
@@ -49,6 +51,10 @@ export class ArchiveNoteComponent implements OnInit {
         this.loading = false; 
       }
     });
+  }
+
+  handleRefresh() {
+    this.getArchivedNotes();
   }
   
 }

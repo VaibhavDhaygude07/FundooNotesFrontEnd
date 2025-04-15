@@ -3,7 +3,7 @@
   import { UpdateNotesComponent } from '../update-note/update-note.component';
   import { DataService } from '../../Services/DataService/data.service';
   import { NotesService } from '../../Services/Notes/notes.service';
-import { debuglog } from 'node:util';
+import { Subscription } from 'rxjs';
 
   interface Note {
     noteId: number;
@@ -13,6 +13,7 @@ import { debuglog } from 'node:util';
     color: string;
     isDeleted: boolean;
     isArchive: boolean;
+    isTrashed: boolean;
     id: number;
     isPinned?: boolean;
     isSelected?: boolean;
@@ -28,13 +29,16 @@ import { debuglog } from 'node:util';
     @Input() notes: Note[] = [];
     @Input() loading: boolean = false;
     @Input() error: string = '';
+    // @Input() viewMode: 'grid' | 'list' = 'grid'; 
+    
     @Input() isArchiveView: boolean = false;
+     @Input() isTrashView: boolean = false;
     @Output() retry = new EventEmitter<void>();
-    //  @Output() UpdateAutoRefresh = new EventEmitter();
     @Output() refreshRequested = new EventEmitter<void>();
 
     searchNote: string = '';
     selectedNote: Note | null = null;
+    viewMode: 'grid' | 'list' = 'grid';
 
     constructor(
       public dialog: MatDialog,
@@ -64,31 +68,35 @@ import { debuglog } from 'node:util';
       });
     }
 
-    archiveNote(note: Note, event: Event) {
-      event.stopPropagation();
-      
-      this.notesService.archiveNotes(note.noteId.toString()).subscribe({
-        next: (res: any) => {
-          
-          note.isArchive = !note.isArchive;
-    
-          console.log(` Note archive status changed: ${res.data}`);
-          this.onRefreshRequested();
+    archiveNote(note: Note) {
+      this.notesService.archiveNotes(String(note.id)).subscribe({
+        next: () => {
+         
+          note.isArchive = true;
+          this.refreshRequested.emit();
         },
         error: (err) => {
-          console.error(' Failed to toggle archive status', err);
+          console.error('Failed to archive note', err);
         }
       });
-
     }
     
-    deleteNote(note: Note | null, event: Event) {
-      event.stopPropagation();
-      if (!note) return;
-      note.isDeleted = true;
-      console.log('Note trashed:', note);
+   deleteNote(note: Note) {
+      this.notesService.trashNotes(String(note.id)).subscribe({
+        next: () => {
+          
+        
+          note.isTrashed = true;
+         
+          this.refreshRequested.emit(); 
+        },
+        error: (err) => {
+          console.error('Failed to delete note', err);
+        }
+      });
     }
 
+    
     onRetry() {
       this.retry.emit();
     }
