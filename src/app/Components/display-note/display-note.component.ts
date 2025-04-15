@@ -85,7 +85,6 @@ import { Subscription } from 'rxjs';
       this.notesService.trashNotes(String(note.id)).subscribe({
         next: () => {
           
-        
           note.isTrashed = true;
          
           this.refreshRequested.emit(); 
